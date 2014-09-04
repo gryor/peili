@@ -1,12 +1,11 @@
 function Peili(options) {
 	// location.origin + ':5048/'
 	var socket = io.connect(options.host);
-	var rooms = [];
+	var rooms = {};
 
 	socket.on('reconnect', function () {
-		rooms.forEach(function (room) {
-			join(room);
-		});
+		for(room in rooms)
+			socket.emit('join', room);
 	});
 
 	if(options.onconnect)
@@ -18,27 +17,23 @@ function Peili(options) {
 	if(options.ondisconnect)
 		socket.on('disconnect', options.ondisconnect);
 
-	function join(room) {
+	function join(room, callback) {
+		rooms[room] = callback;
 		socket.emit('join', room);
-		rooms.push(room);
+		socket.on('room.' + room, rooms[room]);
 	}
 
 	function leave(room) {
+		if(rooms[room]) {
+			socket.removeListener('room.' + room, rooms[room]);
+			delete rooms[room];
+		}
+
 		socket.emit('leave', room);
-
-		var index = rooms.indexOf(room);
-
-		if(index === -1)
-			return;
-
-		rooms = rooms.slice(0,index).concat(rooms.slice(index+1));
 	}
 
 	function emit(room, content) {
-		socket.emit('broadcast', {
-			room: room,
-			content: content
-		});
+		socket.emit('broadcast', {room: room, content: content});
 	}
 
 	this.join = join;

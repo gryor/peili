@@ -40,4 +40,8 @@ function Peili(options) {
 			content: content
 		});
 	}
+
+	this.join = join;
+	this.leave = leave;
+	this.emit = emit;
 }

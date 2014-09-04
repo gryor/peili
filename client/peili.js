@@ -2,6 +2,11 @@ function Peili(options) {
 	// location.origin + ':5048/'
 	var socket = io.connect(options.host);
 	var rooms = {};
+	var id = null;
+
+	socket.on('id', function (Id) {
+		id = Id;
+	});
 
 	socket.on('reconnect', function () {
 		for(room in rooms)
@@ -16,6 +21,9 @@ function Peili(options) {
 
 	if(options.ondisconnect)
 		socket.on('disconnect', options.ondisconnect);
+
+	if(options.onmessage)
+		socket.on('message', options.onmessage);
 
 	function join(room, callback) {
 		rooms[room] = callback;
@@ -44,4 +52,8 @@ function Peili(options) {
 	this.leave = leave;
 	this.broadcast = broadcast;
 	this.send = send;
+
+	Object.defineProperty(this, 'id', {get: function () {
+		return id;
+	}});
 }

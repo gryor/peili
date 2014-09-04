@@ -32,6 +32,8 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('send', function (msg) {
-		io.sockets.to('id.' + msg.to, {from: id, content: msg.content});
+		io.sockets.to('id.' + msg.to).emit('message', {from: id, content: msg.content});
 	});
+
+	socket.emit('id', id);
 });

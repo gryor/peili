@@ -1,6 +1,6 @@
 function Peili(options) {
 	// location.origin + ':5048/'
-	var socket = io.connect();
+	var socket = io.connect(options.host);
 	var rooms = [];
 
 	socket.on('reconnect', function () {

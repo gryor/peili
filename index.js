@@ -18,7 +18,7 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('broadcast', function (msg) {
-		io.sockets.to(msg.room, msg.content);
+		io.sockets.to(msg.room).emit('room.' + msg.room, msg.content);
 		log.info({client: socket.id, broadcast: msg});
 	});
 });

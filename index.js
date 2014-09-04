@@ -28,11 +28,12 @@ io.on('connection', function(socket) {
 			content: msg.content
 		});
 
-		log.info({client: id, from: id, content: msg.content});
+		log.info({room: msg.room, from: id, content: msg.content});
 	});
 
 	socket.on('send', function (msg) {
 		io.sockets.to('id.' + msg.to).emit('message', {from: id, content: msg.content});
+		log.info({to: msg.to, from: id, content: msg.content});
 	});
 
 	socket.emit('id', id);

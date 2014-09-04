@@ -1,0 +1,27 @@
+{
+  "name": "peili",
+  "version": "1.0.0",
+  "description": "Broadcast socket.io messages to all clients",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/wilhelmmatilainen/peili.git"
+  },
+  "keywords": [
+    "socket.io",
+    "broadcast"
+  ],
+  "author": "Wilhelm Matilainen",
+  "license": "AGPLv3",
+  "bugs": {
+    "url": "https://github.com/wilhelmmatilainen/peili/issues"
+  },
+  "homepage": "https://github.com/wilhelmmatilainen/peili",
+  "dependencies": {
+    "bunyan": "^1.0.1",
+    "socket.io": "^1.1.0"
+  }
+}

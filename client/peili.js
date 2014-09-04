@@ -32,11 +32,16 @@ function Peili(options) {
 		socket.emit('leave', room);
 	}
 
-	function emit(room, content) {
+	function broadcast(room, content) {
 		socket.emit('broadcast', {room: room, content: content});
+	}
+
+	function send(to, content) {
+		socket.emit('send', {to: to, content: content});
 	}
 
 	this.join = join;
 	this.leave = leave;
-	this.emit = emit;
+	this.broadcast = broadcast;
+	this.send = send;
 }

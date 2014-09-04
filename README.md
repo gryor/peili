@@ -5,10 +5,12 @@ in specific rooms.
 
 Example
 =======
-```node
-var p = new Peili({host: location.origin + ':5048/'});
-p.join('test', function(data) {console.log(data)});
-p.emit('test', 'Hello World!');
+```javascript
+var p = new Peili({host: location.origin + ':5048/', onmessage: function(data) {console.log(data);}});
+p.join('test', function(data) {console.log(data);});
+p.broadcast('test', 'Hello World!');
+p.send('<client id>', 'Hello You'); // Own id is p.id
 
-Hello World!
+{from: <client id>, content: 'Hello World!'}
+{from: <client id>, content: 'Hello You!'}
 ```

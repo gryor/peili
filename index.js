@@ -1,4 +1,5 @@
 var io = require('socket.io')(5048);
+var crypto = require ('crypto');
 var bunyan = require('bunyan');
 var log = bunyan.createLogger({
 	name: 'Peili'
@@ -18,7 +19,13 @@ io.on('connection', function(socket) {
 	});
 
 	socket.on('broadcast', function (msg) {
-		io.sockets.to(msg.room).emit('room.' + msg.room, msg.content);
-		log.info({client: socket.id, broadcast: msg});
+		io.sockets.to(msg.room).emit('room.' + msg.room, {
+			from: crypto.createHash('sha256').update(socket.id).digest('hex'),
+			content: msg.content
+		});
+		log.info({client: socket.id, broadcast: {
+			from: crypto.createHash('sha256').update(socket.id).digest('hex'),
+			content: msg.content
+		}});
 	});
 });
